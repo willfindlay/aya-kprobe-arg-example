@@ -25,9 +25,7 @@ members = []
 
 
 [patch.crates-io]
-#aya-bpf = {git = "https://github.com/willfindlay/aya", branch = "arguments"}
-aya-bpf = {path = "../../aya/bpf/aya-bpf"}
+aya-bpf = {git = "https://github.com/willfindlay/aya", branch = "arguments"}
 
 [patch."http://github.com/aya-rs/aya"]
-#aya-bpf = {git = "https://github.com/willfindlay/aya", branch = "arguments"}
-aya-bpf = {path = "../../aya/bpf/aya-bpf"}
+aya-bpf = {git = "https://github.com/willfindlay/aya", branch = "arguments"}
