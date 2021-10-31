@@ -1,0 +1,3 @@
+{
+  "rust-analyzer.linkedProjects": ["Cargo.toml", "kprobes-args-test-ebpf/Cargo.toml"]
+}

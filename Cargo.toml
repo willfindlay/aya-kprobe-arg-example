@@ -1,0 +1,10 @@
+[workspace]
+members = ["kprobes-args-test", "kprobes-args-test-common", "xtask"]
+
+[patch.crates-io]
+#aya = {git = "https://github.com/willfindlay/aya", branch = "arguments"}
+aya = {path = "../aya/aya"}
+
+[patch."http://github.com/aya-rs/aya"]
+#aya = {git = "https://github.com/willfindlay/aya", branch = "arguments"}
+aya = {path = "../aya/aya"}

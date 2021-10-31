@@ -1,0 +1,17 @@
+[package]
+name = "kprobes-args-test"
+version = "0.1.0"
+edition = "2018"
+publish = false
+
+[dependencies]
+aya = { git = "https://github.com/aya-rs/aya", branch="main" }
+kprobes-args-test-common = { path = "../kprobes-args-test-common", features=["userspace"] }
+anyhow = "1.0.42"
+ctrlc = "3.2"
+
+structopt = { version = "0.3"}
+
+[[bin]]
+name = "kprobes-args-test"
+path = "src/main.rs"

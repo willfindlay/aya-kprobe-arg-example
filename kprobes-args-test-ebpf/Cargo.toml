@@ -1,0 +1,33 @@
+[package]
+name = "kprobes-args-test-ebpf"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+aya-bpf = { git = "http://github.com/aya-rs/aya", branch = "main" }
+kprobes-args-test-common = { path = "../kprobes-args-test-common" }
+
+[[bin]]
+name = "kprobes-args-test"
+path = "src/main.rs"
+
+[profile.dev]
+panic = "abort"
+debug = 1
+opt-level = 2
+overflow-checks = false
+
+[profile.release]
+panic = "abort"
+
+[workspace]
+members = []
+
+
+[patch.crates-io]
+#aya-bpf = {git = "https://github.com/willfindlay/aya", branch = "arguments"}
+aya-bpf = {path = "../../aya/bpf/aya-bpf"}
+
+[patch."http://github.com/aya-rs/aya"]
+#aya-bpf = {git = "https://github.com/willfindlay/aya", branch = "arguments"}
+aya-bpf = {path = "../../aya/bpf/aya-bpf"}
