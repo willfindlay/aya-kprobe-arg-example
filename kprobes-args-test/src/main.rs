@@ -45,7 +45,7 @@ fn try_main() -> Result<(), anyhow::Error> {
     }
 
     for (pid, count) in unsafe { scheduled.iter() }.filter_map(Result::ok) {
-        println!("pid {} is scheduled {} times", pid, count)
+        println!("tid {} tried to wake up {} times", pid, count)
     }
 
     println!("Exiting...");
