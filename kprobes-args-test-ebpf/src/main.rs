@@ -8,19 +8,15 @@
 mod vmlinux;
 
 use aya_bpf::{
-    helpers,
+    helpers::bpf_probe_read,
     macros::{kprobe, map},
-    maps::{HashMap, PerCpuArray},
+    maps::HashMap,
     programs::ProbeContext,
 };
-use core::mem;
 use vmlinux::task_struct;
 
 #[map]
 static mut SCHEDULED: HashMap<i32, u64> = HashMap::with_max_entries(10240, 0);
-
-#[map]
-static mut SCRATCH: PerCpuArray<task_struct> = PerCpuArray::with_max_entries(1, 0);
 
 #[kprobe(name = "kprobes_args_test")]
 pub fn kprobes_args_test(ctx: ProbeContext) -> u32 {
@@ -36,23 +32,14 @@ unsafe fn try_kprobes_args_test(ctx: ProbeContext) -> Result<u32, u32> {
         None => return Err(1),
     };
 
-    let scratch_p = match SCRATCH.get_mut(0u32) {
-        Some(v) => v,
-        None => return Err(2),
-    };
+    let pid = bpf_probe_read(&(*tp).pid as *const vmlinux::pid_t).map_err(|_| 1u32)?;
 
-    helpers::gen::bpf_probe_read(
-        scratch_p as *mut _ as *mut _,
-        mem::size_of::<task_struct>() as u32,
-        tp as *const _,
-    );
-
-    let scheduled = match SCHEDULED.get(&scratch_p.pid) {
+    let scheduled = match SCHEDULED.get(&pid) {
         Some(v) => v,
         None => &0,
     };
     let scheduled = *scheduled + 1;
-    let _ = SCHEDULED.insert(&scratch_p.pid, &scheduled, 0);
+    let _ = SCHEDULED.insert(&pid, &scheduled, 0);
 
     Ok(0)
 }
